@@ -15,7 +15,7 @@ https://swellui.com
 | Name                                                                                                                 |                                                              Version                                                              |                                                              Downloads                                                               |
 | :------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------: |
 | [`swellUi`](https://github.com/BigCTO/swellui/)             |       [![npm version](https://img.shields.io/npm/v/swellui)](https://www.npmjs.com/package/swellui)       |       [![npm downloads](https://img.shields.io/npm/dt/swellui)](https://www.npmjs.com/package/swellui)       |
-|
+
 
 
 ## Getting Started
@@ -46,3 +46,5 @@ function Product() {
 }
 ```
 
+## Updating the library (Dev)
+- After new updates, the package version should be updated in `package.json` and publish to npm.
