@@ -16,6 +16,7 @@ interface SwellContextType {
     removeItemFromCart: (item: any) => void;
     clearCart: () => void;
     toggleCart: (value: any) => void;
+    toggleAddToCartButton: (value: any) => void;
 }
 
 export const SwellContext = React.createContext<SwellContextType>({} as SwellContextType);
@@ -145,6 +146,11 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
                 toggleCart: (value) => {
                     updateStore((prevState: any) => {
                         return { ...prevState, showCart: !value };
+                    });
+                },
+                toggleAddToCartButton: (value) => {
+                    updateStore((prevState: any) => {
+                        return { ...prevState, adding: !value };
                     });
                 }
             }}
