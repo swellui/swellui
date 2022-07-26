@@ -1,0 +1,36 @@
+{
+    "name": "swellui",
+    "version": "0.1.0",
+    "main": "dist/cjs/index.js",
+    "module": "dist/esm/index.js",
+    "files": [
+        "dist"
+    ],
+    "dependencies": {
+        "react-scripts": "5.0.1",
+        "swell-js": "^3.17.3"
+    },
+    "scripts": {
+        "build": "rm -rf dist/ && prettier --write src/* && npm run build:esm && npm run build:cjs",
+        "build:esm": "tsc",
+        "build:cjs": "tsc --module CommonJS --outDir dist/cjs"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "devDependencies": {
+        "@types/node": "^18.6.1",
+        "@types/react": "^18.0.0",
+        "@types/react-dom": "^18.0.0",
+        "react": "18.0.0",
+        "react-dom": "18.0.0",
+        "typescript": "^4.7.4"
+    },
+    "peerDependencies": {
+        "react": "18.0.0",
+        "react-dom": "18.0.0"
+    }
+}
