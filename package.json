@@ -1,12 +1,13 @@
 {
     "name": "swellui",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "main": "dist/cjs/index.js",
     "module": "dist/esm/index.js",
     "files": [
         "dist"
     ],
     "dependencies": {
+        "framer-motion": "^6.5.1",
         "react-scripts": "5.0.1",
         "swell-js": "^3.17.3"
     },
