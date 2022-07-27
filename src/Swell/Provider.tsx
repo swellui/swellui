@@ -121,14 +121,9 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
                             Size: `${selectedSize.name}`,
                             Color: `${selectedColor.name}`
                         },
-                        metadata: {
-                            Cost: product.cost,
-                            School: product.organizationId,
-                            Group: product.groupId
-                        }
                     });
                     updateStore((prevState: any) => {
-                        return { ...prevState, cart: c };
+                        return { ...prevState, cart: c, showCart: true, adding: false };
                     });
                 },
                 removeItemFromCart: async (item) => {
