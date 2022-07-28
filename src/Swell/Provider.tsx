@@ -17,6 +17,10 @@ interface SwellContextType {
     clearCart: () => void;
     toggleCart: (value: any) => void;
     toggleAddToCartButton: (value: any) => void;
+    listAllSubscriptions: (value: any) => void;
+    getSubscription: (id: string) => void;
+    pasueSubscription: (id: string) => void;
+    cancelSubscription: (id: string) => void;
 }
 
 export const SwellContext = React.createContext<SwellContextType>({} as SwellContextType);
@@ -160,6 +164,28 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
                     updateStore((prevState: any) => {
                         return { ...prevState, adding: !value };
                     });
+                },
+                listAllSubscriptions: async () => {
+                    const subscriptions = await swell.subscriptions.list();
+                    return subscriptions;
+                },
+                getSubscription: async (id: string) => {
+                    const subscription = await swell.subscriptions.get(id);
+                    return subscription;
+                },
+                pasueSubscription: async (id: string) => {
+                    const subscription = await swell.subscriptions.update(id, {
+                        paused: true,
+                        date_pause_end: null
+                    });
+                    return subscription;
+                },
+                cancelSubscription: async (id: string) => {
+                    const subscription = await swell.subscriptions.update(id, {
+                        canceled: true
+                    });
+
+                    return subscription;
                 }
             }}
         >
