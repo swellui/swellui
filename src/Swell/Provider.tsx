@@ -10,8 +10,8 @@ interface SwellContextType {
     signIn: (params: any) => void;
     getLoggedInAccount: () => void;
     logout: () => void;
-    isLoggedIn: boolean;
-    setIsLoggedIn: (login: boolean) => void;
+    isLoggedIn: any;
+    setIsLoggedIn: (user: any) => void;
     addItemToCart: (product: any, selectedSize: any, selectedColor: any) => void;
     removeItemFromCart: (item: any) => void;
     clearCart: () => void;
@@ -26,6 +26,8 @@ export const useSwellContext = () => useContext(SwellContext);
 swell.init('letterman', 'pk_W1tiV1pTlSpWAsvTeLTp5mgNg5AB0A0B', {
     useCamelcase: true
 });
+
+// additionalOrgs
 
 export function SwellProvider({ children, config }: { children: React.ReactNode; config: any }) {
     let initialStoreState = {
@@ -51,8 +53,15 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
     const [store, updateStore] = useState<any>(initialStoreState);
     const [account, updateAccount] = useState(initialAccountState);
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(null);
 
+    const getLoggedInAccount = async () => {
+        const account = await swell.account.get();
+        updateAccount((prevState) => {
+            return { ...prevState, ...account };
+        });
+        return account;
+    };
     useEffect(() => {
         const getGroupProducts = async () => {
             const p = await swell.products.list({
@@ -66,6 +75,15 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
         };
 
         getGroupProducts();
+
+        const getAuth = async () => {
+            const user = await getLoggedInAccount();
+            if (user !== null) {
+                setIsLoggedIn(user);
+            }
+        };
+
+        getAuth();
     }, []);
 
     useEffect(() => {
@@ -87,7 +105,7 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
                 account,
                 createAccount: async (params = {}) => {
                     const user = await swell.account.create(params);
-                    setIsLoggedIn(true);
+                    setIsLoggedIn(user);
                     updateAccount((prevState) => {
                         return { ...prevState, ...user };
                     });
@@ -95,19 +113,13 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
                 },
                 signIn: async (params) => {
                     const user = await swell.account.login(params.email, params.password);
-                    setIsLoggedIn(true);
+                    setIsLoggedIn(user);
                     updateAccount((prevState) => {
                         return { ...prevState, ...user };
                     });
                     return user;
                 },
-                getLoggedInAccount: async () => {
-                    const account = await swell.account.get();
-                    updateAccount((prevState) => {
-                        return { ...prevState, ...account };
-                    });
-                    return account;
-                },
+                getLoggedInAccount: getLoggedInAccount,
                 logout: async () => {
                     return swell.account.logout();
                 },
@@ -120,7 +132,7 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
                         options: {
                             Size: `${selectedSize.name}`,
                             Color: `${selectedColor.name}`
-                        },
+                        }
                     });
                     updateStore((prevState: any) => {
                         return { ...prevState, cart: c, showCart: true, adding: false };
