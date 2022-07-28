@@ -24,7 +24,7 @@ export const SwellContext = React.createContext<SwellContextType>({} as SwellCon
 export const useSwellContext = () => useContext(SwellContext);
 
 swell.init('letterman', 'pk_W1tiV1pTlSpWAsvTeLTp5mgNg5AB0A0B', {
-    useCamelcase: true
+    useCamelCase: true
 });
 
 // additionalOrgs
@@ -121,7 +121,8 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
                 },
                 getLoggedInAccount: getLoggedInAccount,
                 logout: async () => {
-                    return swell.account.logout();
+                    await swell.account.logout();
+                    setIsLoggedIn(null);
                 },
                 isLoggedIn: isLoggedIn,
                 setIsLoggedIn: setIsLoggedIn,
