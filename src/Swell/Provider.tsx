@@ -21,6 +21,7 @@ interface SwellContextType {
     getSubscription: (id: string) => void;
     pasueSubscription: (id: string) => void;
     cancelSubscription: (id: string) => void;
+    listAccountOrders: () => void;
 }
 
 export const SwellContext = React.createContext<SwellContextType>({} as SwellContextType);
@@ -186,6 +187,9 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
                     });
 
                     return subscription;
+                },
+                listAccountOrders: async () => {
+                    return swell.account.listOrders({});
                 }
             }}
         >
