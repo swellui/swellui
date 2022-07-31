@@ -17,24 +17,23 @@ interface SwellContextType {
     clearCart: () => void;
     toggleCart: (value: any) => void;
     toggleAddToCartButton: (value: any) => void;
-    listAllSubscriptions: (value: any) => void;
+    listAllSubscriptions: (value: any) => Promise<void>;
     getSubscription: (id: string) => void;
     pasueSubscription: (id: string) => void;
     cancelSubscription: (id: string) => void;
-    listAccountOrders: () => void;
+    listAccountOrders: () => Promise<void>;
+    listNavMenus: (id: string) => Promise<any>;
 }
 
 export const SwellContext = React.createContext<SwellContextType>({} as SwellContextType);
 
 export const useSwellContext = () => useContext(SwellContext);
 
-swell.init('letterman', 'pk_W1tiV1pTlSpWAsvTeLTp5mgNg5AB0A0B', {
-    useCamelCase: true
-});
-
-// additionalOrgs
-
 export function SwellProvider({ children, config }: { children: React.ReactNode; config: any }) {
+    swell.init(config.storeId, config.publicKey, {
+        useCamelCase: true
+    });
+
     let initialStoreState = {
         swell,
         adding: false,
