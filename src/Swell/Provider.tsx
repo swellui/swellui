@@ -7,9 +7,9 @@ interface SwellContextType {
     };
     account: any;
     createAccount: (params: any) => void;
-    signIn: (params: any) => void;
+    signIn: (params: any) => Promise<any>;
     getLoggedInAccount: () => void;
-    logout: () => void;
+    logout: () => Promise<void>;
     isLoggedIn: any;
     setIsLoggedIn: (user: any) => void;
     addItemToCart: (product: any, selectedSize: any, selectedColor: any) => void;
@@ -190,6 +190,10 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
                 },
                 listAccountOrders: async () => {
                     return swell.account.listOrders({});
+                },
+                listNavMenus: async (id: string) => {
+                    const headers = await swell.settings.menus(id);
+                    return headers;
                 }
             }}
         >
