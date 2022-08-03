@@ -173,11 +173,31 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
                     const subscription = await swell.subscriptions.get(id);
                     return subscription;
                 },
-                pasueSubscription: async (id: string) => {
+                pauseSubscription: async (id: string) => {
                     const subscription = await swell.subscriptions.update(id, {
                         paused: true,
                         date_pause_end: null
                     });
+
+                    return subscription;
+                },
+                skipSubscription: async (id: string, months = 1) => {
+                    const date = new Date()
+
+                    date.setMonth(date.getMonth() + months)
+
+                    const subscription = await swell.subscriptions.update(id, {
+                        paused: true,
+                        date_pause_end: date.toISOString()
+                    });
+
+                    return subscription;
+                },
+                resumeSubscription: async (id: string) => {
+                    const subscription = await swell.subscriptions.update(id, {
+                        paused: false,
+                    });
+
                     return subscription;
                 },
                 cancelSubscription: async (id: string) => {
