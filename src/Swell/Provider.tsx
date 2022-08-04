@@ -19,7 +19,9 @@ interface SwellContextType {
     toggleAddToCartButton: (value: any) => void;
     listAllSubscriptions: (value: any) => Promise<void>;
     getSubscription: (id: string) => void;
-    pasueSubscription: (id: string) => void;
+    pauseSubscription: (id: string) => void;
+    skipSubscription: (id: string, months: number) => Promise<any>;
+    resumeSubscription: (id: string) => Promise<any>;
     cancelSubscription: (id: string) => void;
     listAccountOrders: () => Promise<void>;
     listNavMenus: (id: string) => Promise<any>;
@@ -182,9 +184,9 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
                     return subscription;
                 },
                 skipSubscription: async (id: string, months = 1) => {
-                    const date = new Date()
+                    const date = new Date();
 
-                    date.setMonth(date.getMonth() + months)
+                    date.setMonth(date.getMonth() + months);
 
                     const subscription = await swell.subscriptions.update(id, {
                         paused: true,
@@ -195,7 +197,7 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
                 },
                 resumeSubscription: async (id: string) => {
                     const subscription = await swell.subscriptions.update(id, {
-                        paused: false,
+                        paused: false
                     });
 
                     return subscription;
