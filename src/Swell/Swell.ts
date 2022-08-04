@@ -9,5 +9,5 @@ export async function Swell({ storeId, publicKey }: SwellConfig) {
     await swell.init(storeId, publicKey, {
         useCamelCase: true
     });
-    return swell
+    return swell;
 }
