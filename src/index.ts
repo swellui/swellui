@@ -1,1 +1,1 @@
-export * from './Swell';
+export * from './Commerce';

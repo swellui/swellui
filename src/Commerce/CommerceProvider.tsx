@@ -1,15 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react';
 const swell = require('swell-js');
 
-interface SwellContextType {
+interface CommerceContextType {
     store: {
         swell: any;
     };
     account: any;
     createAccount: (params: any) => void;
-    signIn: (params: any) => void;
+    signIn: (params: any) => Promise<any>;
     getLoggedInAccount: () => void;
-    logout: () => void;
+    logout: () => Promise<void>;
     isLoggedIn: any;
     setIsLoggedIn: (user: any) => void;
     addItemToCart: (product: any, selectedSize: any, selectedColor: any) => void;
@@ -17,23 +17,25 @@ interface SwellContextType {
     clearCart: () => void;
     toggleCart: (value: any) => void;
     toggleAddToCartButton: (value: any) => void;
-    listAllSubscriptions: (value: any) => void;
+    listAllSubscriptions: (value: any) => Promise<void>;
     getSubscription: (id: string) => void;
-    pasueSubscription: (id: string) => void;
+    pauseSubscription: (id: string) => void;
+    skipSubscription: (id: string, months: number) => Promise<any>;
+    resumeSubscription: (id: string) => Promise<any>;
     cancelSubscription: (id: string) => void;
+    listAccountOrders: () => Promise<void>;
+    listNavMenus: (id: string) => Promise<any>;
 }
 
-export const SwellContext = React.createContext<SwellContextType>({} as SwellContextType);
+export const CommerceContext = React.createContext<CommerceContextType>({} as CommerceContextType);
 
-export const useSwellContext = () => useContext(SwellContext);
+export const useCommerceContext = () => useContext(CommerceContext);
 
-swell.init('letterman', 'pk_W1tiV1pTlSpWAsvTeLTp5mgNg5AB0A0B', {
-    useCamelCase: true
-});
+export function CommerceProvider({ children, config }: { children: React.ReactNode; config: any }) {
+    swell.init(config.storeId, config.publicKey, {
+        useCamelCase: true
+    });
 
-// additionalOrgs
-
-export function SwellProvider({ children, config }: { children: React.ReactNode; config: any }) {
     let initialStoreState = {
         swell,
         adding: false,
@@ -103,7 +105,7 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
     }, [store?.cart?.itemQuantity]);
 
     return (
-        <SwellContext.Provider
+        <CommerceContext.Provider
             value={{
                 store,
                 account,
@@ -173,11 +175,31 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
                     const subscription = await swell.subscriptions.get(id);
                     return subscription;
                 },
-                pasueSubscription: async (id: string) => {
+                pauseSubscription: async (id: string) => {
                     const subscription = await swell.subscriptions.update(id, {
                         paused: true,
                         date_pause_end: null
                     });
+
+                    return subscription;
+                },
+                skipSubscription: async (id: string, months = 1) => {
+                    const date = new Date();
+
+                    date.setMonth(date.getMonth() + months);
+
+                    const subscription = await swell.subscriptions.update(id, {
+                        paused: true,
+                        date_pause_end: date.toISOString()
+                    });
+
+                    return subscription;
+                },
+                resumeSubscription: async (id: string) => {
+                    const subscription = await swell.subscriptions.update(id, {
+                        paused: false
+                    });
+
                     return subscription;
                 },
                 cancelSubscription: async (id: string) => {
@@ -186,10 +208,17 @@ export function SwellProvider({ children, config }: { children: React.ReactNode;
                     });
 
                     return subscription;
+                },
+                listAccountOrders: async () => {
+                    return swell.account.listOrders({});
+                },
+                listNavMenus: async (id: string) => {
+                    const headers = await swell.settings.menus(id);
+                    return headers;
                 }
             }}
         >
             {children}
-        </SwellContext.Provider>
+        </CommerceContext.Provider>
     );
 }
