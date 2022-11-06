@@ -23,26 +23,26 @@ https://swellui.com
 
 Wrap the app with `SwellProvier`.
 ```jsx
-import { SwellProvider } from "swellui";
+import { CommerceProvider } from "swellui";
 
 function MyApp() {
     return (
-        <SwellProvider>
+        <CommerceProvider>
             <App ... >
             <Routes ... >
             <Script ... >
-        </SwellProvider>
+        </CommerceProvider>
     )
 }
 ```
-Now you can use `SwellContext` from anywhere inside App or Routes.
+Now you can use `CommerceContext` from anywhere inside App or Routes.
 ```jsx
-import { SwellContext } from "swellui";
+import { CommerceContext } from "swellui";
 
 function Product() {
     const {
-        store: { swell, products },
-    } = useContext(SwellContext);
+        store: { commerce, products },
+    } = useContext(CommerceContext);
 }
 ```
 
