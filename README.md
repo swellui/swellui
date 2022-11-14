@@ -21,7 +21,7 @@ https://swellui.com
 ## Getting Started
 ---
 
-Wrap the app with `SwellProvier`.
+Wrap the app with `CommerceProvier`.
 ```jsx
 import { CommerceProvider } from "swellui";
 
