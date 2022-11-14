@@ -106,7 +106,6 @@ export const useProduct = (slug) => {
     const [product, setProduct] = useState({ data: {}, loading: false, error: false });
     const [variants, setVariants] = useState({ data: {}, loading: false, error: false });
     const [options, setOptions] = useState({ data: {}, loading: false, error: false });
-    const [activeOptions, setActiveOptions] = useState({});
     // TODO
     // Purchase options: const [ purchaseOptions, setPurchaseOptions] = useState({ data: {}, loading: false, error: false });
 
@@ -151,11 +150,8 @@ export const useProduct = (slug) => {
 
     const images = useImages(product.data);
 
-    useEffect(() => {
-        console.log('activeOptions', activeOptions);
-    }, [activeOptions]);
 
-    return { product, variants, options, activeOptions, setActiveOptions, images };
+    return { product, variants, options, images };
 };
 
 // useOptions returns active Variant if variant exists and selectedOptions are set
