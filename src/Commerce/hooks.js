@@ -106,7 +106,6 @@ export const useProduct = (slug) => {
     const [product, setProduct] = useState({ data: {}, loading: false, error: false });
     const [variants, setVariants] = useState({ data: {}, loading: false, error: false });
     const [options, setOptions] = useState({ data: {}, loading: false, error: false });
-    const [activeOptions, setActiveOptions] = useState({});
     // TODO
     // Purchase options: const [ purchaseOptions, setPurchaseOptions] = useState({ data: {}, loading: false, error: false });
 
@@ -151,18 +150,16 @@ export const useProduct = (slug) => {
 
     const images = useImages(product.data);
 
-    useEffect(() => {
-        console.log('activeOptions', activeOptions);
-    }, [activeOptions]);
 
-    return { product, variants, options, activeOptions, setActiveOptions, images };
+    return { product, variants, options, images };
 };
 
 // useOptions returns active Variant if variant exists and selectedOptions are set
 
-export const useOptions = (product, activeOptions) => {
+export const useOptions = (product) => {
     const { swell } = useCommerce();
     const [activeVariant, setActiveVariant] = useState({});
+    const [activeOptions, setActiveOptions] = useState({});
     // const [options, setOptions] = useState({});
 
     useEffect(() => {
@@ -178,8 +175,12 @@ export const useOptions = (product, activeOptions) => {
         }
     }, [activeOptions, product, swell.products]);
 
+    useEffect(() => {
+        console.log('activeOptions', activeOptions);
+    }, [activeOptions]);
+
     // add stock and inventory check
-    return { activeVariant };
+    return { activeVariant, activeOptions, setActiveOptions };
 };
 
 // useCart returns cart, itemCount, cartTotal, cartItems, cartLoading, cartError, addItems, removeItems, update, clear
