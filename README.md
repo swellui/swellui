@@ -14,7 +14,7 @@ https://swellui.com
 
 | Name                                                                                                                 |                                                              Version                                                              |                                                              Downloads                                                               |
 | :------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------: |
-| [`swellUi`](https://github.com/BigCTO/swellui/)             |       [![npm version](https://img.shields.io/npm/v/swellui)](https://www.npmjs.com/package/swellui)       |       [![npm downloads](https://img.shields.io/npm/dt/swellui)](https://www.npmjs.com/package/swellui)       |
+| [`swellUi`](https://github.com/swellui/swellui/)             |       [![npm version](https://img.shields.io/npm/v/swellui)](https://www.npmjs.com/package/swellui)       |       [![npm downloads](https://img.shields.io/npm/dt/swellui)](https://www.npmjs.com/package/swellui)       |
 
 
 
